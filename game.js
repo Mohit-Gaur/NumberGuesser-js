@@ -14,6 +14,7 @@ const guessButton = document.getElementById('guess');
 const nextRoundButton = document.getElementById('next-round')
 
 guessButton.addEventListener('click', () => {
+
   // Generate the target value
   target = generateTarget();
   // Retrieve the player's guess
@@ -27,8 +28,9 @@ guessButton.addEventListener('click', () => {
   
   // Determine if the human or computer wins:
   const humanIsWinner = compareGuesses(currentHumanGuess, computerGuess, target)
-  const winner = humanIsWinner ? 'human' : 'computer'
-
+  const winner = humanIsWinner ? 'human' : 'computer';
+  //disable the humanGuessInput.
+  humanGuessInput.setAttribute('disabled', true);
   // Update the correct score:
   updateScore(winner);
 
@@ -36,9 +38,11 @@ guessButton.addEventListener('click', () => {
   if (humanIsWinner) {
     guessButton.innerText = 'You Win!!!!!';
     guessButton.classList.toggle('winning-text')
-  } else {
+  } else if(winner === 'computer') {
     computerWinsDisplay.innerText = 'Computer Wins!!!';
+    guessButton.innerText = 'You Loose :(';
   }
+ 
 
   // winnerDisplay.innerText = humanIsWinner ? 'You win!' : 'Computer wins!';
 
@@ -54,6 +58,8 @@ guessButton.addEventListener('click', () => {
 nextRoundButton.addEventListener('click', () => {
   // Increase the round number
   advanceRound();
+  // enable the Human guess input.
+  humanGuessInput.removeAttribute('disabled');
   // Display the new round number
   roundNumberDisplay.innerText = currentRoundNumber;
 
@@ -85,12 +91,18 @@ subtractButton.addEventListener('click', () => {
 
 const handleValueChange = value => {
   if (value > 0 && value <= 9) {
+    guessButton.innerText = 'Make a Guess';
     subtractButton.removeAttribute('disabled');
     addButton.removeAttribute('disabled');
+    guessButton.removeAttribute('disabled');
   } else if (value > 9) {
     addButton.setAttribute('disabled', true);
+    guessButton.setAttribute('disabled', true); // disable the guess button if value > 9
+    guessButton.innerText = 'Enter a number < 9';
   } else if (value <= 0) {
     subtractButton.setAttribute('disabled', true);
+    guessButton.setAttribute('disabled', true);   // disable the guess button if value < 0
+    guessButton.innerText = 'Enter a number > 0';
   }
 }
 
