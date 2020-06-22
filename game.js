@@ -31,6 +31,11 @@ guessButton.addEventListener('click', () => {
   const winner = humanIsWinner ? 'human' : 'computer';
   //disable the humanGuessInput.
   humanGuessInput.setAttribute('disabled', true);
+  
+  //disable the add and subtract button
+  addButton.setAttribute('disabled', true);
+  subtractButton.setAttribute('disabled', true);
+  
   // Update the correct score:
   updateScore(winner);
 
@@ -91,18 +96,24 @@ subtractButton.addEventListener('click', () => {
 
 const handleValueChange = value => {
   if (value > 0 && value <= 9) {
+    
     guessButton.innerText = 'Make a Guess';
     subtractButton.removeAttribute('disabled');
     addButton.removeAttribute('disabled');
     guessButton.removeAttribute('disabled');
+    
   } else if (value > 9) {
+    
     addButton.setAttribute('disabled', true);
     guessButton.setAttribute('disabled', true); // disable the guess button if value > 9
     guessButton.innerText = 'Enter a number < 9';
+    
   } else if (value <= 0) {
+    
     subtractButton.setAttribute('disabled', true);
     guessButton.setAttribute('disabled', true);   // disable the guess button if value < 0
     guessButton.innerText = 'Enter a number > 0';
+    
   }
 }
 
